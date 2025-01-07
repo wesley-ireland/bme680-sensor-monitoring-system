@@ -35,7 +35,7 @@ $ pip list
 With the setup completed, you can now run the Python script: 
 
 ```bash
-$ python3 bme680_test.py
+$ python3 bme680_sensor_script.py
 ```
 
 You will be prompted to use the real sensor or simulate:

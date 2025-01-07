@@ -7,7 +7,7 @@ import sys
 import psycopg
 import datetime
 
-DB_HOST = "localhost"
+DB_HOST = "timescale-db-container"
 DB_PORT = 5432
 DB_NAME = "bme680_sensor_monitoring_system"
 DB_USER = "postgres"
@@ -71,16 +71,18 @@ def read_bme680():
 
         time.sleep(2)
 
-user_input = input("To simulate, enter S, for real sensor data, enter R: ")
+# user_input = input("To simulate, enter S, for real sensor data, enter R: ")
+#
+# if user_input == "R":
+#     print("Reading the BME680 sensor data...")
+#     print("---------------------------------")
+#     read_bme680()
+# elif user_input == "S":
+#     print("Simulating the BME680 sensor data...")
+#     print("---------------------------------")
+#     simulate_bme680()
+# else:
+#     print("That is an invalid command.")
+#     sys.exit()
 
-if user_input == "R":
-    print("Reading the BME680 sensor data...")
-    print("---------------------------------")
-    read_bme680()
-elif user_input == "S":
-    print("Simulating the BME680 sensor data...")
-    print("---------------------------------")
-    simulate_bme680()
-else:
-    print("That is an invalid command.")
-    sys.exit()
+read_bme680()
