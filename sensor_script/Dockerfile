@@ -9,4 +9,4 @@ COPY bme680_sensor_script.py .
 COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
-CMD ["python3", "bme680_sensor_script.py"]
+CMD ["python3", "-u", "bme680_sensor_script.py"]

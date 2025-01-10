@@ -6,25 +6,24 @@ import random
 import sys
 import psycopg
 import datetime
+import os
 
-DB_HOST = "timescale-db-container"
-DB_PORT = 5432
-DB_NAME = "bme680_sensor_monitoring_system"
-DB_USER = "postgres"
-DB_PASSWORD = "password"
+print("Waiting a bit for the database to start. Please hold...")
+time.sleep(10)
 
 try:
     connection = psycopg.connect(
-        host=DB_HOST,
-        port=DB_PORT,
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD
+        host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT"),
+        dbname=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD")
     )
     cursor = connection.cursor()
+    print("Connected to the database.")
 except Exception as e:
     print(f"Error connecting to database: {e}")
-    exit()
+    sys.exit()
 
 def insert_sensor_reading(timestamp, sensor):
     try:
@@ -70,19 +69,5 @@ def read_bme680():
         insert_sensor_reading(now, sensor)
 
         time.sleep(2)
-
-# user_input = input("To simulate, enter S, for real sensor data, enter R: ")
-#
-# if user_input == "R":
-#     print("Reading the BME680 sensor data...")
-#     print("---------------------------------")
-#     read_bme680()
-# elif user_input == "S":
-#     print("Simulating the BME680 sensor data...")
-#     print("---------------------------------")
-#     simulate_bme680()
-# else:
-#     print("That is an invalid command.")
-#     sys.exit()
 
 read_bme680()
