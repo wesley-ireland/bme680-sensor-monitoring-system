@@ -1,0 +1,26 @@
+services:
+  timescale-db-service:
+    image: timescale-db-image
+    container_name: timescale-db-container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+  sensor-script-service:
+    image: sensor-script-image
+    container_name: sensor-script-container
+    depends_on:
+      - timescale-db-service
+    environment:
+      DB_HOST: timescale-db-service
+      DB_PORT: 5432
+      DB_NAME: bme680_sensor_monitoring_system
+      DB_USER: postgres
+      DB_PASSWORD: password
+    devices:
+      - /dev/i2c-1:/dev/i2c-1 # I2C Device
+      - /dev/gpiomem:/dev/gpiomem # GPIO Memory
+    privileged: true
+    volumes:
+      - /sys:/sys
