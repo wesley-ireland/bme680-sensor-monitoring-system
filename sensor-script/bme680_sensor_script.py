@@ -1,3 +1,4 @@
+import signal
 import time
 import board
 import busio
@@ -70,4 +71,12 @@ def read_bme680():
 
         time.sleep(2)
 
+# When container stops, docker sends SIGTERM to the main process, which we need to handle, otherwise the container takes
+# 10s to shut down and is sent a SIGKILL signal.
+def handle_sigterm(signum, frame):
+    print("SIGTERM received. Exiting applicaton.")
+    sys.exit(0)
+signal.signal(signal.SIGTERM, handle_sigterm)
+
+# Run main method
 read_bme680()

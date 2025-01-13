@@ -1,12 +1,4 @@
 services:
-  timescale-db-service:
-    image: timescale-db-image
-    container_name: timescale-db-container
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-    ports:
-      - "5432:5432"
   sensor-script-service:
     image: sensor-script-image
     container_name: sensor-script-container
@@ -24,3 +16,25 @@ services:
     privileged: true
     volumes:
       - /sys:/sys
+  timescale-db-service:
+    image: timescale-db-image
+    container_name: timescale-db-container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+  grafana-service:
+    image: grafana/grafana:latest
+    container_name: grafana-container
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    depends_on:
+      - timescale-db-service
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+volumes:
+  grafana-data:
