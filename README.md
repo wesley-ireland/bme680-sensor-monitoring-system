@@ -2,60 +2,24 @@
 
 A system to monitor a BME680 sensor, store the readings into a TimescaleDB real-time database, and pipe the data into a UI using Graphana for visualization.
 
-## Setup
+## Prerequisites
 
-This project requires that you have Python installed: https://www.python.org/downloads/
+You should have Docker installed on your machine. If you have an older version of Docker (< 20.10.0), ensure you also have Docker Compose installed, as it is likely not bundled with your version of Docker. 
 
-You then need to create a virtual environment:
+## Running the System
 
-```bash
-$ python -m venv myenv
-```
-
-Activate the virtual environment:
+With the setup completed, you can now run the containers with Docker Compose:
 
 ```bash
-$ source myenv/bin/activate 
+$ docker compose up -d
 ```
 
-Install dependencies: 
+After which, you should have 3 containers running: 
 
-```bash
-$ pip install -r requirements.txt
-```
+1. `sensor-script-container`: A python script that connects to your BME680 sensor and is taking readings over the GPIO and I2C protocol. This script also connects via the established Docker Compose default network to your TimescaleDB, and is performing writes to the database with the sensor data.
+2. `timescale-db-container`: A TimescaleDB instance, with a table for storing sensor data. 
+3. `grafana-container`: A Grafana website, exposed on port 3000.
 
-To verify installation, you can run the following:
+## Viewing the Real-Time Data in Grafana
 
-```bash
-$ pip list
-```
-
-# Running the Script
-
-With the setup completed, you can now run the Python script: 
-
-```bash
-$ python3 bme680_sensor_script.py
-```
-
-You will be prompted to use the real sensor or simulate:
-
-```
-To simulate, enter S, for real sensor data, enter R:
-```
-
-After which, you will start to get readings: 
-
-```
-Simulating the BME680 sensor data...
-Temperature: 24.59°C
-Humidity: 57.91%
-Pressure: 1045.65 hPa
-Gas Resistance: 37506.17 ohms
----------------------------------
-Temperature: 32.29°C
-Humidity: 55.55%
-Pressure: 973.61 hPa
-Gas Resistance: 40771.76 ohms
----------------------------------
-```
+todo explain how to set up the dashboard
