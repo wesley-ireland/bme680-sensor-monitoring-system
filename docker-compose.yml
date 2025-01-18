@@ -34,16 +34,12 @@ services:
     environment:
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_DASHBOARDS_MIN_REFRESH_INTERVAL: 1s
     depends_on:
       - timescale-db-service
     ports:
       - "3000:3000"
     volumes:
       - grafana-data:/var/lib/grafana
-  test-service:
-    image: test-image
-    build:
-      context: ./test-py
-    container_name: test-container
 volumes:
   grafana-data:
