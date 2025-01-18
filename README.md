@@ -4,7 +4,9 @@ A system to monitor a BME680 sensor, store the readings into a TimescaleDB real-
 
 ## Prerequisites
 
-You should have Docker installed on your machine. If you have an older version of Docker (< 20.10.0), ensure you also have Docker Compose installed, as it is likely not bundled with your version of Docker. 
+This project is assumed to be run on a Raspberry Pi with a connected BME680 sensor.
+
+You should also have Docker installed. If you have an older version of Docker (< 20.10.0), ensure you also have Docker Compose installed, as it is likely not bundled with your version of Docker. 
 
 ## Running the System
 
@@ -22,4 +24,7 @@ After which, you should have 3 containers running:
 
 ## Viewing the Real-Time Data in Grafana
 
-todo explain how to set up the dashboard
+1. Open Grafana at {RaspberryPiIpAddress}:3000
+2. Create a Dashboard
+3. Add 4 Visualizations to the Dashboard, one for each datapoint that the sensor is collecting (temperature, pressure, gas resistance, pressure)
+4. Enjoy!
