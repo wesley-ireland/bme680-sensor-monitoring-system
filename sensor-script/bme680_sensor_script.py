@@ -69,12 +69,14 @@ def read_bme680():
         now = datetime.datetime.now(datetime.timezone.utc)
         insert_sensor_reading(now, sensor)
 
-        time.sleep(2)
+        time.sleep(0.5)
 
 # When container stops, docker sends SIGTERM to the main process, which we need to handle, otherwise the container takes
 # 10s to shut down and is sent a SIGKILL signal.
 def handle_sigterm(signum, frame):
-    print("SIGTERM received. Exiting applicaton.")
+    print("SIGTERM received. Closing database connection and exiting application.")
+    if connection:
+        connection.close()
     sys.exit(0)
 signal.signal(signal.SIGTERM, handle_sigterm)
 
